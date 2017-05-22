@@ -1,18 +1,26 @@
 package my.intellij.androidlifecycleactivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     String msg = "Activity 1 : ";
+    private TextView name, description;
 
     /** Called when the activity is first created. */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        name = (TextView) findViewById(R.id.name);
+        description = (TextView) findViewById(R.id.description);
+
         Log.d(msg, "The onCreate() event");
     }
 
@@ -55,5 +63,19 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         Log.d(msg, "The onDestroy() event");
+    }
+
+    public void changeActivity(View view)
+    {
+        Intent intent = new Intent(MainActivity.this, NextActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
+
+    public void setValue(View view)
+    {
+        Task t = new Task("Breakfast","Nasi Lemak");
+        name.setText(t.getName());
+        description.setText(t.getDescription());
     }
 }
